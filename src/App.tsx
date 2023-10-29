@@ -1,3 +1,9 @@
+import Drawer from './components/Drawer';
+
 export default function App() {
-	return <h1 className="text-xl">Hello, world!</h1>;
+	return (
+		<Drawer>
+			<h1>Hello, world!</h1>
+		</Drawer>
+	);
 }
