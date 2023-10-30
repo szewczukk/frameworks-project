@@ -1,13 +1,11 @@
 import { useQuery } from 'react-query';
 import Sidebar, { User } from '../common/Sidebar';
+import api from '../../lib/api';
 
 export default function Home() {
 	const { isLoading, data } = useQuery({
 		queryKey: ['usersData'],
-		queryFn: () =>
-			fetch('https://jsonplaceholder.typicode.com/users').then((res) =>
-				res.json(),
-			),
+		queryFn: () => api.get('/users/').then((res) => res.data),
 	});
 
 	if (isLoading) {
