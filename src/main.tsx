@@ -4,11 +4,16 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import './index.css';
 import Home from './components/pages/Home';
+import UserDetails from './components/pages/UserDetails';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Home />,
+	},
+	{
+		path: '/users/:id',
+		element: <UserDetails />,
 	},
 ]);
 
