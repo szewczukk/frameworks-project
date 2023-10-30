@@ -5,15 +5,22 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import './index.css';
 import Home from './components/pages/Home';
 import UserDetails from './components/pages/UserDetails';
+import Root from './components/common/Root';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Home />,
-	},
-	{
-		path: '/users/:id',
-		element: <UserDetails />,
+		element: <Root />,
+		children: [
+			{
+				path: '/',
+				element: <Home />,
+			},
+			{
+				path: '/users/:id',
+				element: <UserDetails />,
+			},
+		],
 	},
 ]);
 
