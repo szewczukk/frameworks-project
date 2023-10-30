@@ -1,9 +1,10 @@
 import { useQuery } from 'react-query';
 import Sidebar, { User } from './Sidebar';
 import api from '../../lib/api';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 export default function Root() {
+	const params = useParams();
 	const { isLoading, data, error } = useQuery<User[]>({
 		queryKey: ['users'],
 		queryFn: () => api.get('/users/').then((res) => res.data),
@@ -19,7 +20,7 @@ export default function Root() {
 
 	return (
 		<div className="flex h-screen items-start">
-			<Sidebar users={data} />
+			<Sidebar users={data} currentUserId={parseInt(params.id ?? '-1')} />
 			<div className="p-6">
 				<Outlet />
 			</div>
