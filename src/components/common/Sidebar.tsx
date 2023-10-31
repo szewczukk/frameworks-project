@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { User } from '../../lib/types';
+import { User } from '@/lib/types';
 
 type Props = {
 	users: User[];

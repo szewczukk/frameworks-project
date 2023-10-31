@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
 import Sidebar from './Sidebar';
-import api from '../../lib/api';
+import api from '@/lib/api';
 import { Outlet, useParams } from 'react-router-dom';
-import { User } from '../../lib/types';
+import { User } from '@/lib/types';
 
 export default function Root() {
 	const params = useParams();

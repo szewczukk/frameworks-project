@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import api from '../../lib/api';
+import api from '@/lib/api';
 import { useParams } from 'react-router-dom';
-import { User } from '../common/Sidebar';
+import { User } from '@/lib/types';
 
 export default function UserDetails() {
 	const params = useParams();
