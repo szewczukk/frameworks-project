@@ -33,7 +33,7 @@ export default function Root() {
 
 		const responseUser = userSchema.parse(response.data);
 
-		setUsers([...users, responseUser]);
+		setUsers((prev) => [...prev, responseUser]);
 	};
 
 	if (!users) {

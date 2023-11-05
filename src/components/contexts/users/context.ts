@@ -1,9 +1,9 @@
 import { User } from '@/lib/types';
-import { createContext } from 'react';
+import { Dispatch, SetStateAction, createContext } from 'react';
 
 type UsersContext = {
 	users: User[];
-	setUsers: (prev: User[]) => void;
+	setUsers: Dispatch<SetStateAction<User[]>>;
 };
 
 const UsersContext = createContext<UsersContext>({
