@@ -6,8 +6,9 @@ import { User } from '@/lib/types';
 export default function UserDetails() {
 	const params = useParams();
 	const { isLoading, data, error } = useQuery<User>({
-		queryKey: ['users', params.id],
+		queryKey: ['user', params.id],
 		queryFn: () => api.get(`/users/${params.id}/`).then((res) => res.data),
+		staleTime: Infinity,
 	});
 
 	if (isLoading) {
