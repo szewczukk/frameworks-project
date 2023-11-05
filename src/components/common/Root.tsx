@@ -4,6 +4,7 @@ import { Outlet, useParams } from 'react-router-dom';
 import { useContext, useEffect, useRef } from 'react';
 import NewUserDialog, { FormValues } from './NewUserDialog';
 import UsersContext from '../contexts/users/context';
+import { userSchema, usersSchema } from '@/lib/types';
 
 export default function Root() {
 	const params = useParams();
@@ -14,7 +15,9 @@ export default function Root() {
 		(async () => {
 			const response = await api.get('/users/');
 
-			setUsers(response.data);
+			const responseUsers = usersSchema.parse(response.data);
+
+			setUsers(responseUsers);
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -28,7 +31,9 @@ export default function Root() {
 
 		const response = await api.post('/users/', values);
 
-		setUsers([...users, response.data]);
+		const responseUser = userSchema.parse(response.data);
+
+		setUsers([...users, responseUser]);
 	};
 
 	if (!users) {
