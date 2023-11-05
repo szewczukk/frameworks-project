@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import InputField from './InputField';
 
 const schema = z.object({
 	username: z.string().min(1),
@@ -32,7 +33,7 @@ const NewUserDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 		<dialog ref={ref} className="rounded bg-neutral-50 p-8">
 			<div className="absolute right-4 top-4">
 				<form method="dialog">
-					<button className="h-8 w-8 rounded-full text-sm text-neutral-900 hover:bg-neutral-300 focus:outline-none">
+					<button className="h-8 w-8 rounded-full text-sm text-neutral-900 transition-colors hover:bg-neutral-300 focus:outline-none">
 						✕
 					</button>
 				</form>
@@ -41,21 +42,12 @@ const NewUserDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 				Create a new user
 			</h1>
 			<form onSubmit={htmlOnSubmit} className="flex w-72 flex-col gap-2">
-				<label htmlFor="username">
-					Username<span className="text-red-600">*</span>
-				</label>
-				<input
+				<InputField
+					label="Username"
+					error={errors.username?.message}
 					{...register('username', { required: true })}
-					id="username"
-					className={`rounded border bg-transparent px-4 py-2 transition-colors focus:border-neutral-500 focus:outline-none ${
-						errors.username?.message &&
-						'border-red-500 bg-red-50 focus:border-red-500'
-					}`}
-					placeholder="Username*"
+					required
 				/>
-				<p className="min-h-[20px] text-sm text-red-500">
-					{errors.username?.message || ' '}
-				</p>
 
 				<input
 					type="submit"
