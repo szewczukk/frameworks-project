@@ -17,15 +17,26 @@ const NewUserDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 	const {
 		register,
 		handleSubmit,
+		reset,
 		formState: { errors },
 	} = useForm<FormValues>({
 		resolver: zodResolver(schema),
 	});
 
-	const htmlOnSubmit = handleSubmit(props.onSubmit);
+	const htmlOnSubmit = handleSubmit((values) => {
+		reset();
+		props.onSubmit(values);
+	});
 
 	return (
 		<dialog ref={ref} className="rounded bg-neutral-50 p-8">
+			<div className="absolute right-4 top-4">
+				<form method="dialog">
+					<button className="h-8 w-8 rounded-full text-sm text-neutral-900 hover:bg-neutral-300 focus:outline-none">
+						✕
+					</button>
+				</form>
+			</div>
 			<h1 className="mb-6 text-center text-2xl font-semibold">
 				Create a new user
 			</h1>
