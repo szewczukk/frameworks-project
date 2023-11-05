@@ -28,7 +28,7 @@ export default function Sidebar({
 				))}
 			</ul>
 			<button
-				className="button m-4 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
+				className="m-4 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
 				onClick={onNewUserButtonClick}
 			>
 				New user
