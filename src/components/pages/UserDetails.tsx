@@ -1,23 +1,20 @@
-import { useQuery } from 'react-query';
-import api from '@/lib/api';
 import { useParams } from 'react-router-dom';
-import { User } from '@/lib/types';
+import { useContext } from 'react';
+import UsersContext from '../contexts/users/context';
 
 export default function UserDetails() {
 	const params = useParams();
-	const { isLoading, data, error } = useQuery<User>({
-		queryKey: ['user', params.id],
-		queryFn: () => api.get(`/users/${params.id}/`).then((res) => res.data),
-		staleTime: Infinity,
-	});
+	const { users } = useContext(UsersContext);
 
-	if (isLoading) {
-		return <h1>Loading..</h1>;
+	if (!params.id) {
+		return <h1>Users id not provided</h1>;
 	}
 
-	if (error || !data) {
-		return <h1>Error</h1>;
+	const user = users.find((user) => user.id === parseInt(params.id as string));
+
+	if (!user) {
+		return <h1>User not found</h1>;
 	}
 
-	return <h1>Hello, {data.username}!</h1>;
+	return <h1>Hello, {user.username}!</h1>;
 }

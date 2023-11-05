@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import './index.css';
 import Home from './components/pages/Home';
 import UserDetails from './components/pages/UserDetails';
 import Root from './components/common/Root';
+import UsersProvider from './components/contexts/users/Provider';
 
 const router = createBrowserRouter([
 	{
@@ -24,12 +24,10 @@ const router = createBrowserRouter([
 	},
 ]);
 
-const queryClient = new QueryClient();
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<QueryClientProvider client={queryClient}>
+		<UsersProvider>
 			<RouterProvider router={router} />
-		</QueryClientProvider>
+		</UsersProvider>
 	</React.StrictMode>,
 );
