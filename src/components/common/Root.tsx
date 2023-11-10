@@ -3,7 +3,7 @@ import api from '@/lib/api';
 import { Outlet, useParams } from 'react-router-dom';
 import { useContext, useEffect, useRef } from 'react';
 import NewUserDialog, { FormValues } from './NewUserDialog';
-import UsersContext from '../contexts/users/context';
+import { UsersContext } from '../contexts/UserContext';
 import { userSchema, usersSchema } from '@/lib/types';
 
 export default function Root() {

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import UsersContext from './context';
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 import { User } from '@/lib/types';
 
 type Props = {
@@ -15,3 +14,13 @@ export default function UsersProvider({ children }: Props) {
 		</UsersContext.Provider>
 	);
 }
+
+type UsersContext = {
+	users: User[];
+	setUsers: Dispatch<SetStateAction<User[]>>;
+};
+
+export const UsersContext = createContext<UsersContext>({
+	users: [],
+	setUsers: () => {},
+});
