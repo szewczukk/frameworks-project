@@ -47,7 +47,7 @@ export default function Root() {
 				currentUserId={parseInt(params.id ?? '-1')}
 				onNewUserButtonClick={handleNewUserButtonClick}
 			/>
-			<div className="p-6">
+			<div className="ml-72 grow p-6">
 				<Outlet />
 			</div>
 			<NewUserDialog ref={dialogRef} onSubmit={handleSubmitNewUser} />

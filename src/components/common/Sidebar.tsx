@@ -13,7 +13,7 @@ export default function Sidebar({
 	onNewUserButtonClick,
 }: Props) {
 	return (
-		<aside className="flex h-full w-72 flex-col justify-between bg-slate-300 py-4">
+		<aside className="fixed bottom-0 top-0 flex h-full w-72 flex-col justify-between bg-slate-300 py-4">
 			<ul>
 				{users.map((user) => (
 					<Link to={`/users/${user.id}`} key={user.id}>
