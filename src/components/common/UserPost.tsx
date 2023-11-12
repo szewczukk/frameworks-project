@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Post } from '@/lib/types';
 import CommentsDialog from './CommentsDialog';
 
-export default function Post({ postData }: { postData: Post }) {
+export default function UserPost({ postData }: { postData: Post }) {
 	const { id, title, body } = postData;
 	const [showComments, setShowComments] = useState(false);
 

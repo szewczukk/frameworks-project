@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import api from '@/lib/api';
-import { postsSchema } from '@/lib/types';
-import Post from '../common/Post';
+import { Post, postsSchema } from '@/lib/types';
+import UserPost from '../common/UserPost';
 import { UsersContext } from '../contexts/UserContext';
 import { PostsContext } from '../contexts/PostsContext';
 
@@ -17,8 +17,17 @@ export default function UserDetails() {
 			setIsLoading(true);
 			const response = await api.get(`/users/${params.id}/posts`);
 			const responsePosts = postsSchema.parse(response.data);
+			const newPosts: Post[] = [];
 
-			setPosts(responsePosts);
+			responsePosts.forEach((post: Post) => {
+				let isOld = posts.some(({ id }) => id === post.id);
+
+				if (!isOld) {
+					newPosts.push(post);
+				}
+			});
+
+			setPosts([...posts, ...newPosts]);
 
 			setIsLoading(false);
 		})();
@@ -45,7 +54,7 @@ export default function UserDetails() {
 					? 'Loading...'
 					: posts.length
 					? posts.map((postData) => {
-							return <Post key={postData.id} postData={postData} />;
+							return <UserPost key={postData.id} postData={postData} />;
 					  })
 					: 'No data'}
 			</div>
