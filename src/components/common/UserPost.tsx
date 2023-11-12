@@ -1,15 +1,22 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Post } from '@/lib/types';
+import { Post, postsSchema } from '@/lib/types';
 import CommentsDialog from './CommentsDialog';
 import api from '@/lib/api';
 import { PostsContext } from '../contexts/PostsContext';
+import PostEditDialog, { FormValues } from './PostEditDialog';
 
 export default function UserPost({ postData }: { postData: Post }) {
 	const { id, title, body } = postData;
 	const [showComments, setShowComments] = useState(false);
-	const { posts, setPosts } = useContext(PostsContext);
+	const [isPostEditing, setIsPostEditing] = useState(false);
+	const { setPosts } = useContext(PostsContext);
 
-	const dialogRef = useRef<HTMLDialogElement>(null);
+	const commentsDialogRef = useRef<HTMLDialogElement>(null);
+	const editDialogRef = useRef<HTMLDialogElement>(null);
+
+	const editPost = () => {
+		setIsPostEditing(true);
+	};
 
 	const deletePost = () => {
 		console.log('wanna delete', id);
@@ -24,10 +31,31 @@ export default function UserPost({ postData }: { postData: Post }) {
 	};
 
 	useEffect(() => {
+		if (isPostEditing) {
+			editDialogRef.current?.showModal();
+		}
+	}, [isPostEditing]);
+
+	useEffect(() => {
 		if (showComments) {
-			dialogRef.current?.showModal();
+			commentsDialogRef.current?.showModal();
 		}
 	}, [showComments]);
+
+	const handleSubmitEditPost = async (values: FormValues) => {
+		editDialogRef.current?.close();
+
+		const response = await api.patch(`/posts/${id}`, values);
+		const responsePost = postsSchema.parse([response.data]);
+
+		setPosts((prevPosts) => {
+			return prevPosts.map((post) =>
+				post.id === id ? { ...responsePost[0] } : post,
+			);
+		});
+
+		setIsPostEditing(false);
+	};
 
 	return (
 		<div className="mb-8 flex h-80 w-[30%] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
@@ -43,7 +71,10 @@ export default function UserPost({ postData }: { postData: Post }) {
 			</div>
 
 			<div className="flex w-full justify-between">
-				<button className=" w-2/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none">
+				<button
+					className=" w-2/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
+					onClick={editPost}
+				>
 					EDIT
 				</button>
 				<button
@@ -56,9 +87,20 @@ export default function UserPost({ postData }: { postData: Post }) {
 
 			{showComments && (
 				<CommentsDialog
-					ref={dialogRef}
+					ref={commentsDialogRef}
 					postId={id}
 					setShowComments={setShowComments}
+				/>
+			)}
+
+			{isPostEditing && (
+				<PostEditDialog
+					ref={editDialogRef}
+					onSubmit={handleSubmitEditPost}
+					postId={id}
+					title={title}
+					body={body}
+					setIsPostEditing={setIsPostEditing}
 				/>
 			)}
 		</div>
