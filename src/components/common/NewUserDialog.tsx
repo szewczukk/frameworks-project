@@ -30,7 +30,10 @@ const NewUserDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 	});
 
 	return (
-		<dialog ref={ref} className="rounded bg-neutral-50 p-8">
+		<dialog
+			ref={ref}
+			className="rounded bg-neutral-50 p-8 shadow-xl backdrop:bg-black backdrop:opacity-50"
+		>
 			<div className="absolute right-4 top-4">
 				<form method="dialog">
 					<button className="h-8 w-8 rounded-full text-sm text-neutral-900 transition-colors hover:bg-neutral-300 focus:outline-none">
