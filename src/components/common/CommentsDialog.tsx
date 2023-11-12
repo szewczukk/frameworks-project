@@ -1,6 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { forwardRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { Dispatch, SetStateAction, forwardRef } from 'react';
 import * as z from 'zod';
 
 const schema = z.object({
@@ -10,7 +8,8 @@ const schema = z.object({
 export type FormValues = z.infer<typeof schema>;
 
 type Props = {
-	onSubmit: (values: FormValues) => void;
+	postId: number;
+	setShowComments: Dispatch<SetStateAction<boolean>>;
 };
 
 const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {

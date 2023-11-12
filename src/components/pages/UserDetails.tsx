@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import api from '@/lib/api';
-import PostsContext from '../contexts/posts/context';
 import { postsSchema } from '@/lib/types';
 import Post from '../common/Post';
 import { UsersContext } from '../contexts/UserContext';
+import { PostsContext } from '../contexts/PostsContext';
 
 export default function UserDetails() {
 	const params = useParams();

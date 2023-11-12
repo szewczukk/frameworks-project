@@ -1,10 +1,5 @@
-import { useParams } from 'react-router-dom';
-import { useContext, useEffect, useRef, useState } from 'react';
-import UsersContext from '../contexts/users/context';
-import api from '@/lib/api';
-import PostsContext from '../contexts/posts/context';
-import { Post, postsSchema } from '@/lib/types';
-import NewUserDialog from './NewUserDialog';
+import { useEffect, useRef, useState } from 'react';
+import { Post } from '@/lib/types';
 import CommentsDialog from './CommentsDialog';
 
 export default function Post({ postData }: { postData: Post }) {

@@ -5,8 +5,8 @@ import './index.css';
 import Home from './components/pages/Home';
 import UserDetails from './components/pages/UserDetails';
 import Root from './components/common/Root';
-import PostsProvider from './components/contexts/posts/Provider';
 import UsersProvider from './components/contexts/UserContext';
+import PostsProvider from './components/contexts/PostsContext';
 
 const router = createBrowserRouter([
 	{

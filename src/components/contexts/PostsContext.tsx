@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import PostsContext from './context';
 import { Post } from '@/lib/types';
+import { Dispatch, SetStateAction, createContext } from 'react';
+import { useState } from 'react';
 
 type Props = {
 	children: React.ReactNode;
@@ -15,3 +15,13 @@ export default function PostsProvider({ children }: Props) {
 		</PostsContext.Provider>
 	);
 }
+
+type PostsContext = {
+	posts: Post[];
+	setPosts: Dispatch<SetStateAction<Post[]>>;
+};
+
+export const PostsContext = createContext<PostsContext>({
+	posts: [],
+	setPosts: () => {},
+});
