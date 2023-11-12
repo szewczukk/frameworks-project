@@ -1,12 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Post } from '@/lib/types';
 import CommentsDialog from './CommentsDialog';
+import api from '@/lib/api';
+import { PostsContext } from '../contexts/PostsContext';
 
 export default function UserPost({ postData }: { postData: Post }) {
 	const { id, title, body } = postData;
 	const [showComments, setShowComments] = useState(false);
+	const { posts, setPosts } = useContext(PostsContext);
 
 	const dialogRef = useRef<HTMLDialogElement>(null);
+
+	const deletePost = () => {
+		console.log('wanna delete', id);
+
+		api.delete(`/posts/${id}`).then(() => {
+			setPosts((prevPosts) => {
+				return prevPosts.map((post) =>
+					post.id === id ? { ...post, deleted: true } : post,
+				);
+			});
+		});
+	};
 
 	useEffect(() => {
 		if (showComments) {
@@ -31,7 +46,10 @@ export default function UserPost({ postData }: { postData: Post }) {
 				<button className=" w-2/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none">
 					EDIT
 				</button>
-				<button className=" w-2/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none">
+				<button
+					onClick={deletePost}
+					className=" w-2/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
+				>
 					DELETE
 				</button>
 			</div>

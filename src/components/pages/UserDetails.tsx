@@ -11,6 +11,7 @@ export default function UserDetails() {
 	const [isLoading, setIsLoading] = useState(false);
 	const { users } = useContext(UsersContext);
 	const { posts, setPosts } = useContext(PostsContext);
+	const [currentUserPosts, setCurrentUserPosts] = useState<Post[]>([]);
 
 	useEffect(() => {
 		(async () => {
@@ -33,6 +34,12 @@ export default function UserDetails() {
 		})();
 	}, [params.id]);
 
+	useEffect(() => {
+		setCurrentUserPosts(
+			posts.filter((post) => post.userId == params.id && !post.deleted),
+		);
+	}, [posts]);
+
 	if (!params.id) {
 		return <h1>Users id not provided</h1>;
 	}
@@ -52,8 +59,8 @@ export default function UserDetails() {
 			<div className="gap flex flex-wrap items-end justify-center gap-7">
 				{isLoading
 					? 'Loading...'
-					: posts.length
-					? posts.map((postData) => {
+					: currentUserPosts.length
+					? currentUserPosts.map((postData: Post) => {
 							return <UserPost key={postData.id} postData={postData} />;
 					  })
 					: 'No data'}
