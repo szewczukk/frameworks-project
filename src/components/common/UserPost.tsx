@@ -19,8 +19,6 @@ export default function UserPost({ postData }: { postData: Post }) {
 	};
 
 	const deletePost = () => {
-		console.log('wanna delete', id);
-
 		api.delete(`/posts/${id}`).then(() => {
 			setPosts((prevPosts) => {
 				return prevPosts.map((post) =>
