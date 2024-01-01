@@ -7,6 +7,7 @@ import UserDetails from './components/pages/UserDetails';
 import Root from './components/common/Root';
 import UsersProvider from './components/contexts/UserContext';
 import PostsProvider from './components/contexts/PostsContext';
+import CommentsProvider from './components/contexts/CommentsContext';
 
 const router = createBrowserRouter([
 	{
@@ -29,7 +30,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<UsersProvider>
 			<PostsProvider>
-				<RouterProvider router={router} />
+				<CommentsProvider>
+					<RouterProvider router={router} />
+				</CommentsProvider>
 			</PostsProvider>
 		</UsersProvider>
 	</React.StrictMode>,

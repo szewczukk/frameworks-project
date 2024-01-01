@@ -12,8 +12,18 @@ export const postSchema = z.object({
 	body: z.string(),
 });
 
+export const commentSchema = z.object({
+	id: z.number(),
+	postId: z.number(),
+	name: z.string(),
+	email: z.string(),
+	body: z.string(),
+});
+
 export type User = z.infer<typeof userSchema>;
 export type Post = z.infer<typeof postSchema>;
+export type Comment = z.infer<typeof commentSchema>;
 
 export const usersSchema = z.array(userSchema);
 export const postsSchema = z.array(postSchema);
+export const commentsSchema = z.array(commentSchema);

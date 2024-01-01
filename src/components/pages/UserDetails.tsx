@@ -1,10 +1,19 @@
 import { useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import api from '@/lib/api';
-import { Post, postsSchema } from '@/lib/types';
+import { Post, postSchema, postsSchema } from '@/lib/types';
 import UserPost from '../common/UserPost';
+import * as z from 'zod';
 import { UsersContext } from '../contexts/UserContext';
 import { PostsContext } from '../contexts/PostsContext';
+import NewPostDialog from '../common/NewPostDialog';
+
+const schema = z.object({
+	title: z.string().min(1),
+	body: z.string().min(1),
+});
+
+export type FormValues = z.infer<typeof schema>;
 
 export default function UserDetails() {
 	const params = useParams();
@@ -12,6 +21,7 @@ export default function UserDetails() {
 	const { users } = useContext(UsersContext);
 	const { posts, setPosts } = useContext(PostsContext);
 	const [currentUserPosts, setCurrentUserPosts] = useState<Post[]>([]);
+	const dialogRef = useRef<HTMLDialogElement>(null);
 
 	useEffect(() => {
 		(async () => {
@@ -50,11 +60,41 @@ export default function UserDetails() {
 		return <h1>User not found</h1>;
 	}
 
+	const handleShowDialog = () => {
+		dialogRef.current?.showModal();
+	};
+
+	const addPost = async (formValues: FormValues) => {
+		dialogRef.current?.close();
+
+		const { title, body } = formValues;
+
+		const newPost = {
+			userId: user.id,
+			id: Math.floor(Math.random() * 1000000000),
+			title,
+			body,
+		};
+
+		const response = await api.post('/posts/', newPost);
+		const responsePost = postSchema.parse(response.data);
+
+		setPosts((prev) => [...prev, responsePost]);
+	};
+
 	return (
-		<>
+		<div className="flex flex-col items-center">
 			<h1 className="mb-10 mt-5 w-full text-center text-xl">
 				Hello, {user.username}!
 			</h1>
+			<button
+				className="mb-10 w-64 rounded border-2 border-black bg-slate-100 py-2 text-center text-black transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
+				onClick={handleShowDialog}
+			>
+				ADD NEW POST
+			</button>
+
+			<NewPostDialog ref={dialogRef} onSubmit={addPost} />
 
 			<div className="gap flex flex-wrap items-end justify-center gap-7">
 				{isLoading
@@ -65,6 +105,6 @@ export default function UserDetails() {
 					  })
 					: 'No data'}
 			</div>
-		</>
+		</div>
 	);
 }
