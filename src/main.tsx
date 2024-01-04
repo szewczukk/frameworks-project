@@ -7,6 +7,9 @@ import UserDetails from './components/pages/UserDetails';
 import Root from './components/common/Root';
 import UsersProvider from './components/contexts/UserContext';
 import PostsProvider from './components/contexts/PostsContext';
+import LoginPage from './components/pages/Login';
+import AuthProvider from './components/contexts/AuthContext';
+import DashboardPage from './components/pages/Dashboard';
 
 const router = createBrowserRouter([
 	{
@@ -23,14 +26,24 @@ const router = createBrowserRouter([
 			},
 		],
 	},
+	{
+		path: '/login',
+		element: <LoginPage />,
+	},
+	{
+		path: '/dashboard',
+		element: <DashboardPage />,
+	},
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<UsersProvider>
-			<PostsProvider>
-				<RouterProvider router={router} />
-			</PostsProvider>
+			<AuthProvider>
+				<PostsProvider>
+					<RouterProvider router={router} />
+				</PostsProvider>
+			</AuthProvider>
 		</UsersProvider>
 	</React.StrictMode>,
 );

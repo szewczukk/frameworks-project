@@ -15,7 +15,7 @@ const InputField = forwardRef<HTMLInputElement, Props>(
 				</label>
 				<input
 					id={label}
-					className={`rounded border bg-transparent px-4 py-2 transition-colors focus:border-neutral-500 focus:outline-none ${
+					className={`rounded border border-neutral-400 bg-neutral-200 bg-transparent px-4 py-2 transition-colors focus:border-neutral-600 focus:outline-none ${
 						error && 'border-red-500 bg-red-50 focus:border-red-500'
 					}`}
 					placeholder={placeholder || label}
