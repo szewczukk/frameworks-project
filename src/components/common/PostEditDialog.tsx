@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import InputField from './InputField';
+import TextArea from './TextArea';
 
 const schema = z.object({
 	title: z.string().min(0),
@@ -56,9 +57,8 @@ const PostEditDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 					error={errors.title?.message}
 					{...register('title', { required: false })}
 				/>
-				<InputField
+				<TextArea
 					label="Body"
-					type="textarea"
 					placeholder={body}
 					error={errors.body?.message}
 					{...register('body', { required: false })}

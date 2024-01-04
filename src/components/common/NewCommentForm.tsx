@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import InputField from './InputField';
+import TextArea from './TextArea';
 
 const schema = z.object({
 	name: z.string().min(1),
@@ -57,9 +58,8 @@ export default function NewCommentForm(props: Props) {
 					required
 				/>
 
-				<InputField
+				<TextArea
 					label="Body"
-					type="textarea"
 					error={errors.body?.message}
 					{...register('body', { required: true })}
 					required
