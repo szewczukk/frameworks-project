@@ -1,13 +1,6 @@
 import api from '@/lib/api';
 import { Comment, commentSchema, commentsSchema } from '@/lib/types';
-import {
-	Dispatch,
-	SetStateAction,
-	forwardRef,
-	useEffect,
-	useContext,
-	useState,
-} from 'react';
+import { forwardRef, useEffect, useContext, useState } from 'react';
 import * as z from 'zod';
 import { CommentsContext } from '../contexts/CommentsContext';
 import NewCommentForm from './NewCommentForm';
@@ -23,11 +16,10 @@ export type FormValues = z.infer<typeof schema>;
 
 type Props = {
 	postId: number;
-	setShowComments: Dispatch<SetStateAction<boolean>>;
 };
 
 const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
-	const { postId, setShowComments } = props;
+	const { postId } = props;
 	const { comments, setComments } = useContext(CommentsContext);
 	const [currentComments, setCurrentComments] = useState<Comment[]>([]);
 	const [showAddComment, setShowAddComment] = useState(false);
@@ -39,7 +31,7 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 			const newComments: Comment[] = [];
 
 			responseComments.forEach((comment: Comment) => {
-				let isOld = comments.some(({ id }) => id === comment.id);
+				const isOld = comments.some(({ id }) => id === comment.id);
 
 				if (!isOld) {
 					newComments.push(comment);
@@ -51,28 +43,23 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 	}, []);
 
 	useEffect(() => {
-		setCurrentComments(
-			comments.filter(
-				(comment) => comment.postId === postId && !comment.deleted,
-			),
-		);
+		setCurrentComments(comments.filter((comment) => comment.postId === postId));
 	}, [comments]);
 
 	const addComment = async (formValues: FormValues) => {
 		const { name, body, email } = formValues;
+
 		const newComment: Comment = {
 			id: Math.floor(Math.random() * 1000000000),
 			postId,
 			name,
 			email,
 			body,
-			deleted: false,
 		};
 
 		setShowAddComment(false);
 
 		const response = await api.post('/comments/', newComment);
-
 		const responseComment = commentSchema.parse(response.data);
 
 		setComments((prev) => [...prev, responseComment]);
@@ -86,7 +73,7 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 			<div className="absolute right-4 top-4">
 				<form method="dialog">
 					<button
-						onClick={() => setShowComments(false)}
+						type="submit"
 						className="h-8 w-8 rounded-full text-sm text-neutral-900 transition-colors hover:bg-neutral-300 focus:outline-none"
 					>
 						✕
@@ -100,7 +87,7 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 				<>
 					<button
 						className="mb-10 w-4/5 rounded border-2 border-black bg-slate-100 py-2 text-black transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
-						onClick={setShowAddComment}
+						onClick={() => setShowAddComment}
 					>
 						ADD NEW COMMENT
 					</button>

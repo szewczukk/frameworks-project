@@ -15,7 +15,7 @@ type Props = {
 	onSubmit: (values: FormValues) => void;
 };
 
-const NewPostDialog = forwardRef<Props>((props, ref) => {
+const NewPostDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 	const {
 		register,
 		handleSubmit,

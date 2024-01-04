@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Dispatch, SetStateAction, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import InputField from './InputField';
@@ -15,12 +15,11 @@ type Props = {
 	postId: number;
 	title: string;
 	body: string;
-	setIsPostEditing: Dispatch<SetStateAction<boolean>>;
 	onSubmit: (values: FormValues) => void;
 };
 
 const PostEditDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
-	const { title, body, onSubmit, setIsPostEditing } = props;
+	const { title, body, onSubmit } = props;
 
 	const {
 		register,
@@ -41,7 +40,7 @@ const PostEditDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 			<div className="absolute right-4 top-4">
 				<form method="dialog">
 					<button
-						onClick={() => setIsPostEditing(false)}
+						type="submit"
 						className="h-8 w-8 rounded-full text-sm text-neutral-900 transition-colors hover:bg-neutral-300 focus:outline-none"
 					>
 						✕

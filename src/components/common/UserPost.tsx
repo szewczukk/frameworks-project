@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef } from 'react';
 import { Post, postsSchema } from '@/lib/types';
 import CommentsDialog from './CommentsDialog';
 import api from '@/lib/api';
@@ -7,16 +7,10 @@ import PostEditDialog, { FormValues } from './PostEditDialog';
 
 export default function UserPost({ postData }: { postData: Post }) {
 	const { id, title, body } = postData;
-	const [showComments, setShowComments] = useState(false);
-	const [isPostEditing, setIsPostEditing] = useState(false);
 	const { setPosts } = useContext(PostsContext);
 
 	const commentsDialogRef = useRef<HTMLDialogElement>(null);
 	const editDialogRef = useRef<HTMLDialogElement>(null);
-
-	const editPost = () => {
-		setIsPostEditing(true);
-	};
 
 	const deletePost = () => {
 		api.delete(`/posts/${id}`).then(() => {
@@ -27,18 +21,6 @@ export default function UserPost({ postData }: { postData: Post }) {
 			});
 		});
 	};
-
-	useEffect(() => {
-		if (isPostEditing) {
-			editDialogRef.current?.showModal();
-		}
-	}, [isPostEditing]);
-
-	useEffect(() => {
-		if (showComments) {
-			commentsDialogRef.current?.showModal();
-		}
-	}, [showComments]);
 
 	const handleSubmitEditPost = async (values: FormValues) => {
 		editDialogRef.current?.close();
@@ -52,7 +34,7 @@ export default function UserPost({ postData }: { postData: Post }) {
 			);
 		});
 
-		setIsPostEditing(false);
+		editDialogRef.current?.close();
 	};
 
 	return (
@@ -61,7 +43,7 @@ export default function UserPost({ postData }: { postData: Post }) {
 				<h3 className="mb-2 text-base font-bold capitalize">{title}</h3>
 				<p className="my-1 text-justify text-sm">{body}</p>
 				<button
-					onClick={() => setShowComments(true)}
+					onClick={() => commentsDialogRef.current?.showModal()}
 					className="text-sm font-bold"
 				>
 					show comments...
@@ -71,7 +53,7 @@ export default function UserPost({ postData }: { postData: Post }) {
 			<div className="flex w-full justify-between">
 				<button
 					className=" w-2/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
-					onClick={editPost}
+					onClick={() => editDialogRef.current?.show()}
 				>
 					EDIT
 				</button>
@@ -83,24 +65,15 @@ export default function UserPost({ postData }: { postData: Post }) {
 				</button>
 			</div>
 
-			{showComments && (
-				<CommentsDialog
-					ref={commentsDialogRef}
-					postId={id}
-					setShowComments={setShowComments}
-				/>
-			)}
+			<CommentsDialog ref={commentsDialogRef} postId={id} />
 
-			{isPostEditing && (
-				<PostEditDialog
-					ref={editDialogRef}
-					onSubmit={handleSubmitEditPost}
-					postId={id}
-					title={title}
-					body={body}
-					setIsPostEditing={setIsPostEditing}
-				/>
-			)}
+			<PostEditDialog
+				ref={editDialogRef}
+				onSubmit={handleSubmitEditPost}
+				postId={id}
+				title={title}
+				body={body}
+			/>
 		</div>
 	);
 }

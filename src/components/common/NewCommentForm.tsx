@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import InputField from './InputField';
@@ -16,7 +15,7 @@ type Props = {
 	onSubmit: (values: FormValues) => void;
 };
 
-const NewCommentForm = forwardRef<Props>((props, ref) => {
+export default function NewCommentForm(props: Props) {
 	const {
 		register,
 		handleSubmit,
@@ -74,6 +73,4 @@ const NewCommentForm = forwardRef<Props>((props, ref) => {
 			</form>
 		</>
 	);
-});
-
-export default NewCommentForm;
+}

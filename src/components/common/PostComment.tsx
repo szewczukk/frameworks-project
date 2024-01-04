@@ -7,14 +7,16 @@ export default function UserPost({ comment }: { comment: Comment }) {
 	const { id, name, email, body } = comment;
 	const { setComments } = useContext(CommentsContext);
 
-	const deleteComment = () => {
-		api.delete(`/comments/${id}`).then(() => {
-			setComments((prevComments: Comment[]) => {
-				return prevComments.map((comment) =>
-					comment.id === id ? { ...comment, deleted: true } : comment,
-				);
-			});
-		});
+	const deleteComment = async () => {
+		const result = await api.delete(`/comments/${id}`);
+
+		if (result.status !== 200) {
+			return;
+		}
+
+		setComments((prevComments) =>
+			prevComments.filter((prevComment) => prevComment.id !== id),
+		);
 	};
 
 	return (
