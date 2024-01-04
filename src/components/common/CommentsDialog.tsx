@@ -1,8 +1,7 @@
 import api from '@/lib/api';
 import { Comment, commentSchema, commentsSchema } from '@/lib/types';
-import { forwardRef, useEffect, useContext, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import * as z from 'zod';
-import { CommentsContext } from '../contexts/CommentsContext';
 import NewCommentForm from './NewCommentForm';
 import PostComment from './PostComment';
 
@@ -20,7 +19,6 @@ type Props = {
 
 const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 	const { postId } = props;
-	const { comments, setComments } = useContext(CommentsContext);
 	const [currentComments, setCurrentComments] = useState<Comment[]>([]);
 	const [showAddComment, setShowAddComment] = useState(false);
 
@@ -28,23 +26,10 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 		(async () => {
 			const response = await api.get(`/posts/${postId}/comments/`);
 			const responseComments = commentsSchema.parse(response.data);
-			const newComments: Comment[] = [];
 
-			responseComments.forEach((comment: Comment) => {
-				const isOld = comments.some(({ id }) => id === comment.id);
-
-				if (!isOld) {
-					newComments.push(comment);
-				}
-			});
-
-			setComments([...comments, ...newComments]);
+			setCurrentComments(responseComments);
 		})();
 	}, []);
-
-	useEffect(() => {
-		setCurrentComments(comments.filter((comment) => comment.postId === postId));
-	}, [comments]);
 
 	const addComment = async (formValues: FormValues) => {
 		const { name, body, email } = formValues;
@@ -62,7 +47,19 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 		const response = await api.post('/comments/', newComment);
 		const responseComment = commentSchema.parse(response.data);
 
-		setComments((prev) => [...prev, responseComment]);
+		setCurrentComments((prev) => [...prev, responseComment]);
+	};
+
+	const handleCommentDeleted = async (commentId: number) => {
+		const result = await api.delete(`/comments/${commentId}`);
+
+		if (result.status !== 200) {
+			return;
+		}
+
+		setCurrentComments((prev) =>
+			prev.filter((comment) => comment.id !== commentId),
+		);
 	};
 
 	return (
@@ -87,13 +84,17 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 				<>
 					<button
 						className="mb-10 w-4/5 rounded border-2 border-black bg-slate-100 py-2 text-black transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
-						onClick={() => setShowAddComment}
+						onClick={() => setShowAddComment(true)}
 					>
 						ADD NEW COMMENT
 					</button>
 					<div className="flex flex-col gap-10">
 						{currentComments.map((comment) => (
-							<PostComment key={comment.id} comment={comment} />
+							<PostComment
+								key={comment.id}
+								comment={comment}
+								onDelete={handleCommentDeleted}
+							/>
 						))}
 					</div>
 				</>

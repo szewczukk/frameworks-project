@@ -1,23 +1,12 @@
-import { useContext } from 'react';
 import { Comment } from '@/lib/types';
-import api from '@/lib/api';
-import { CommentsContext } from '../contexts/CommentsContext';
 
-export default function UserPost({ comment }: { comment: Comment }) {
+type Props = {
+	comment: Comment;
+	onDelete: (commentId: number) => void;
+};
+
+export default function PostComment({ comment, onDelete }: Props) {
 	const { id, name, email, body } = comment;
-	const { setComments } = useContext(CommentsContext);
-
-	const deleteComment = async () => {
-		const result = await api.delete(`/comments/${id}`);
-
-		if (result.status !== 200) {
-			return;
-		}
-
-		setComments((prevComments) =>
-			prevComments.filter((prevComment) => prevComment.id !== id),
-		);
-	};
 
 	return (
 		<div className="mb-8 w-80 text-center">
@@ -28,7 +17,7 @@ export default function UserPost({ comment }: { comment: Comment }) {
 			</div>
 
 			<button
-				onClick={deleteComment}
+				onClick={() => onDelete(id)}
 				className="w-4/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
 			>
 				DELETE COMMENT
