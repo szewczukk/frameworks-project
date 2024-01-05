@@ -15,14 +15,19 @@ const AuthContext = createContext<Context>(null!);
 export const useAuthContext = () => useContext(AuthContext);
 
 export default function AuthProvider({ children }: Props) {
-	const [userId, setUserId] = useState<number | undefined>();
+	const localStorageUserId = localStorage.getItem('userId');
+	const [userId, setUserId] = useState<number | undefined>(
+		parseInt(localStorageUserId ?? '') || undefined,
+	);
 
-	function signIn(userId: number) {
-		setUserId(userId);
+	function signIn(newUserId: number) {
+		setUserId(newUserId);
+		localStorage.setItem('userId', newUserId.toString());
 	}
 
 	function logout() {
 		setUserId(undefined);
+		localStorage.removeItem('userId');
 	}
 
 	return (
