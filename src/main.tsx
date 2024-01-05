@@ -9,6 +9,7 @@ import PostsProvider from './components/contexts/PostsContext';
 import LoginPage from './components/pages/Login';
 import AuthProvider from './components/contexts/AuthContext';
 import DashboardPage from './components/pages/Dashboard';
+import RequireAuth from './components/common/RequireAuth';
 
 const router = createBrowserRouter([
 	{
@@ -17,11 +18,19 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <DashboardPage />,
+				element: (
+					<RequireAuth>
+						<DashboardPage />
+					</RequireAuth>
+				),
 			},
 			{
 				path: '/users/:id',
-				element: <UserDetails />,
+				element: (
+					<RequireAuth>
+						<UserDetails />
+					</RequireAuth>
+				),
 			},
 		],
 	},
