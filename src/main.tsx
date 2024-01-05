@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css';
-import Home from './components/pages/Home';
 import UserDetails from './components/pages/UserDetails';
 import Root from './components/common/Root';
 import UsersProvider from './components/contexts/UserContext';
@@ -18,7 +17,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <Home />,
+				element: <DashboardPage />,
 			},
 			{
 				path: '/users/:id',
@@ -29,10 +28,6 @@ const router = createBrowserRouter([
 	{
 		path: '/login',
 		element: <LoginPage />,
-	},
-	{
-		path: '/dashboard',
-		element: <DashboardPage />,
 	},
 ]);
 
