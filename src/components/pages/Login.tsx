@@ -33,7 +33,7 @@ export default function LoginPage() {
 		const user = z.array(responseSchema).parse(result.data)[0];
 
 		signIn(user.id);
-		navigate('/dashboard');
+		navigate('/');
 	});
 
 	return (
