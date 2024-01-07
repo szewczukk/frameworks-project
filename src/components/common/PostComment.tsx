@@ -2,10 +2,11 @@ import { Comment } from '@/lib/types';
 
 type Props = {
 	comment: Comment;
+	isOwner: boolean;
 	onDelete: (commentId: number) => void;
 };
 
-export default function PostComment({ comment, onDelete }: Props) {
+export default function PostComment({ comment, isOwner, onDelete }: Props) {
 	const { id, name, email, body } = comment;
 
 	return (
@@ -16,12 +17,14 @@ export default function PostComment({ comment, onDelete }: Props) {
 				<p className="my-1 mb-4 text-sm">{body}</p>
 			</div>
 
-			<button
-				onClick={() => onDelete(id)}
-				className="w-4/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
-			>
-				DELETE COMMENT
-			</button>
+			{isOwner && (
+				<button
+					onClick={() => onDelete(id)}
+					className="w-4/5 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
+				>
+					DELETE COMMENT
+				</button>
+			)}
 		</div>
 	);
 }

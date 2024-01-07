@@ -6,7 +6,6 @@ import TextArea from './TextArea';
 
 const schema = z.object({
 	name: z.string().min(1),
-	email: z.string().min(1),
 	body: z.string().min(1),
 });
 
@@ -48,13 +47,6 @@ export default function NewCommentForm(props: Props) {
 					label="Name"
 					error={errors.name?.message}
 					{...register('name', { required: true })}
-					required
-				/>
-
-				<InputField
-					label="Email"
-					error={errors.email?.message}
-					{...register('email', { required: true })}
 					required
 				/>
 

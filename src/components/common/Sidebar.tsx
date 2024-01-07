@@ -32,7 +32,27 @@ export default function Sidebar({
 							location.pathname === '/' && 'bg-slate-500 text-gray-50'
 						}`}
 					>
-						Me
+						Me - {users.find((user) => user.id === userId)?.username}
+					</Link>
+				</div>
+				<div className="flex flex-col border-b border-black py-4">
+					<Link
+						to="/users/all"
+						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
+							location.pathname === '/users/all' && 'bg-slate-500 text-gray-50'
+						}`}
+					>
+						All posts
+					</Link>
+				</div>
+				<div className="flex flex-col border-b border-black py-4">
+					<Link
+						to="/albums"
+						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
+							location.pathname === '/albums' && 'bg-slate-500 text-gray-50'
+						}`}
+					>
+						Albums
 					</Link>
 				</div>
 				<ul>

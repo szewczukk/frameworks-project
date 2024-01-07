@@ -1,7 +1,9 @@
 import api from '@/lib/api';
-import { Comment, commentSchema, commentsSchema } from '@/lib/types';
-import { forwardRef, useEffect, useState } from 'react';
+import { Comment, commentSchema, commentsSchema, User } from '@/lib/types';
+import { forwardRef, useContext, useEffect, useState } from 'react';
 import * as z from 'zod';
+import { useAuthContext } from '../contexts/AuthContext';
+import { UsersContext } from '../contexts/UserContext';
 import NewCommentForm from './NewCommentForm';
 import PostComment from './PostComment';
 
@@ -21,6 +23,13 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 	const { postId } = props;
 	const [currentComments, setCurrentComments] = useState<Comment[]>([]);
 	const [showAddComment, setShowAddComment] = useState(false);
+	const { users } = useContext(UsersContext);
+	const { userId } = useAuthContext();
+	const [loggedUser, setLoggedUser] = useState<User | undefined>();
+
+	useEffect(() => {
+		userId && setLoggedUser(users.find((user) => user.id === userId));
+	}, [users]);
 
 	useEffect(() => {
 		(async () => {
@@ -32,13 +41,13 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 	}, []);
 
 	const addComment = async (formValues: FormValues) => {
-		const { name, body, email } = formValues;
+		const { name, body } = formValues;
 
 		const newComment: Comment = {
 			id: Math.floor(Math.random() * 1000000000),
 			postId,
 			name,
-			email,
+			email: loggedUser.email,
 			body,
 		};
 
@@ -94,6 +103,7 @@ const CommentsDialog = forwardRef<HTMLDialogElement, Props>((props, ref) => {
 								key={comment.id}
 								comment={comment}
 								onDelete={handleCommentDeleted}
+								isOwner={comment.email === loggedUser?.email}
 							/>
 						))}
 					</div>

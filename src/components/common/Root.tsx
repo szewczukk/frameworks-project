@@ -16,7 +16,6 @@ export default function Root() {
 			const response = await api.get('/users/');
 
 			const responseUsers = usersSchema.parse(response.data);
-
 			setUsers(responseUsers);
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
