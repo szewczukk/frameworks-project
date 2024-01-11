@@ -91,6 +91,7 @@ export default function PostsList() {
 										postData={postData}
 										isOwner={postData.userId === userId}
 										owner={users.find((user) => user.id === postData.userId)!}
+										setPosts={setPosts}
 									/>
 								);
 							})

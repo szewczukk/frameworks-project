@@ -1,11 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import api from '@/lib/api';
-import { postsSchema } from '@/lib/types';
+import { Post, postsSchema } from '@/lib/types';
 import UserPost from '../common/UserPost';
 import * as z from 'zod';
 import { UsersContext } from '../contexts/UserContext';
-import { PostsContext } from '../contexts/PostsContext';
 import { useAuthContext } from '../contexts/AuthContext';
 
 const schema = z.object({
@@ -19,7 +18,7 @@ export default function UserDetails() {
 	const params = useParams();
 	const [isLoading, setIsLoading] = useState(false);
 	const { users } = useContext(UsersContext);
-	const { posts, setPosts } = useContext(PostsContext);
+	const [posts, setPosts] = useState<Post[]>([]);
 	const { userId } = useAuthContext();
 
 	useEffect(() => {
@@ -59,6 +58,7 @@ export default function UserDetails() {
 									postData={postData}
 									isOwner={postData.userId === userId}
 									owner={users.find((user) => user.id === postData.userId)!}
+									setPosts={setPosts}
 								/>
 							);
 					  })

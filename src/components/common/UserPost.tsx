@@ -1,45 +1,39 @@
-import { useContext, useRef } from 'react';
-import { Post, postsSchema, User } from '@/lib/types';
+import { Dispatch, SetStateAction, useRef } from 'react';
+import { Post, postSchema, User } from '@/lib/types';
 import CommentsDialog from './CommentsDialog';
 import api from '@/lib/api';
-import { PostsContext } from '../contexts/PostsContext';
 import PostEditDialog, { FormValues } from './PostEditDialog';
 
 export default function UserPost({
 	postData,
 	isOwner,
 	owner,
+	setPosts,
 }: {
 	postData: Post;
 	isOwner: boolean;
 	owner: User;
+	setPosts: Dispatch<SetStateAction<Post[]>>;
 }) {
 	const { id, title, body } = postData;
-	const { setPosts } = useContext(PostsContext);
 
 	const commentsDialogRef = useRef<HTMLDialogElement>(null);
 	const editDialogRef = useRef<HTMLDialogElement>(null);
 
-	const deletePost = () => {
-		api.delete(`/posts/${id}`).then(() => {
-			setPosts((prevPosts) => {
-				return prevPosts.map((post) =>
-					post.id === id ? { ...post, deleted: true } : post,
-				);
-			});
-		});
+	const deletePost = async () => {
+		await api.delete(`/posts/${id}`);
+
+		setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
 	};
 
 	const handleSubmitEditPost = async (values: FormValues) => {
 		editDialogRef.current?.close();
 
 		const response = await api.patch(`/posts/${id}`, values);
-		const responsePost = postsSchema.parse([response.data]);
+		const responsePost = postSchema.parse(response.data);
 
 		setPosts((prevPosts) => {
-			return prevPosts.map((post) =>
-				post.id === id ? { ...responsePost[0] } : post,
-			);
+			return prevPosts.map((post) => (post.id === id ? responsePost : post));
 		});
 
 		editDialogRef.current?.close();

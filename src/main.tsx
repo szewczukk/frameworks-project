@@ -5,7 +5,6 @@ import './index.css';
 import UserDetails from './components/pages/UserDetails';
 import Root from './components/common/Root';
 import UsersProvider from './components/contexts/UserContext';
-import PostsProvider from './components/contexts/PostsContext';
 import LoginPage from './components/pages/Login';
 import AuthProvider from './components/contexts/AuthContext';
 import DashboardPage from './components/pages/Dashboard';
@@ -71,9 +70,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<UsersProvider>
 			<AuthProvider>
-				<PostsProvider>
-					<RouterProvider router={router} />
-				</PostsProvider>
+				<RouterProvider router={router} />
 			</AuthProvider>
 		</UsersProvider>
 	</React.StrictMode>,
