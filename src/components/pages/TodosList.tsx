@@ -86,6 +86,7 @@ export default function TodosList() {
 										isOwner={userId === todo.userId}
 										owner={users.find((user) => user.id === todo.userId)!}
 										todoData={todo}
+										setTodos={setTodos}
 									/>
 								);
 							})
