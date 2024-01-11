@@ -1,19 +1,13 @@
-import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import api from '@/lib/api';
-import { Album, albumsSchema } from '@/lib/types';
-import * as z from 'zod';
+import { Album, albumSchema, albumsSchema } from '@/lib/types';
 import { UsersContext } from '../contexts/UserContext';
 import AlbumItem from '../common/AlbumItem';
 import { useAuthContext } from '../contexts/AuthContext';
-
-const schema = z.object({
-	title: z.string().min(1),
-	body: z.string().min(1),
-});
-
-export type FormValues = z.infer<typeof schema>;
+import NewAlbumDialog, { FormValues } from '../common/NewAlbumDialog';
 
 export default function AlbumsList() {
+	const newAlbumRef = useRef<HTMLDialogElement>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const { users } = useContext(UsersContext);
 	const [albums, setAlbums] = useState<Album[]>([]);
@@ -37,17 +31,39 @@ export default function AlbumsList() {
 		setSelectedUserFilter(parseInt(e.target.value));
 	};
 
+	const handleNewAlbumDialog = async (values: FormValues) => {
+		newAlbumRef.current?.close();
+
+		const response = await api.post('/posts/', { title: values.title, userId });
+		const responseAlbum = albumSchema.parse(response.data);
+
+		setAlbums((prev) => [...prev, responseAlbum]);
+	};
+
+	const handleShowDialog = () => {
+		newAlbumRef.current?.showModal();
+	};
+
 	return (
 		<div className="flex flex-col items-center">
 			<h1 className="mb-10 mt-5 w-full text-center text-xl">Albums</h1>
-			<select className="mb-10 border border-black" onChange={handleChange}>
-				<option value="-1" selected>
-					All
-				</option>
-				{users.map((user) => (
-					<option value={user.id}>{user.username}</option>
-				))}
-			</select>
+			<div className="mb-10 flex items-center gap-4">
+				<button
+					className="w-64 rounded border-2 border-black bg-slate-100 py-2 text-center text-black transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none"
+					onClick={handleShowDialog}
+				>
+					ADD NEW ALBUM
+				</button>
+				<select className="border border-black" onChange={handleChange}>
+					<option value="-1" selected>
+						All
+					</option>
+					{users.map((user) => (
+						<option value={user.id}>{user.username}</option>
+					))}
+				</select>
+			</div>
+			<NewAlbumDialog onSubmit={handleNewAlbumDialog} ref={newAlbumRef} />
 			<div className="gap flex flex-wrap items-end justify-center gap-7">
 				{isLoading
 					? 'Loading...'

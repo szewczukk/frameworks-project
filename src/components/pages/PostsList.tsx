@@ -2,18 +2,10 @@ import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import api from '@/lib/api';
 import { postSchema, postsSchema } from '@/lib/types';
 import UserPost from '../common/UserPost';
-import * as z from 'zod';
 import { UsersContext } from '../contexts/UserContext';
 import { PostsContext } from '../contexts/PostsContext';
-import NewPostDialog from '../common/NewPostDialog';
+import NewPostDialog, { FormValues } from '../common/NewPostDialog';
 import { useAuthContext } from '../contexts/AuthContext';
-
-const schema = z.object({
-	title: z.string().min(1),
-	body: z.string().min(1),
-});
-
-export type FormValues = z.infer<typeof schema>;
 
 export default function PostsList() {
 	const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +39,6 @@ export default function PostsList() {
 
 		const newPost = {
 			userId,
-			id: Math.floor(Math.random() * 1000000000),
 			title,
 			body,
 		};
