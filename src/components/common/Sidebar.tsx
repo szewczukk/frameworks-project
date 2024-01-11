@@ -44,8 +44,6 @@ export default function Sidebar({
 					>
 						Posts
 					</Link>
-				</div>
-				<div className="flex flex-col border-b border-black py-4">
 					<Link
 						to="/albums"
 						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
@@ -54,8 +52,6 @@ export default function Sidebar({
 					>
 						Albums
 					</Link>
-				</div>
-				<div className="flex flex-col border-b border-black py-4">
 					<Link
 						to="/todos"
 						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
