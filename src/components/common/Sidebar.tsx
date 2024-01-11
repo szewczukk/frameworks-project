@@ -37,12 +37,12 @@ export default function Sidebar({
 				</div>
 				<div className="flex flex-col border-b border-black py-4">
 					<Link
-						to="/users/all"
+						to="/posts"
 						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
-							location.pathname === '/users/all' && 'bg-slate-500 text-gray-50'
+							location.pathname === '/posts' && 'bg-slate-500 text-gray-50'
 						}`}
 					>
-						All posts
+						Posts
 					</Link>
 				</div>
 				<div className="flex flex-col border-b border-black py-4">
