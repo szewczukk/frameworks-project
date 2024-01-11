@@ -12,6 +12,7 @@ import DashboardPage from './components/pages/Dashboard';
 import RequireAuth from './components/common/RequireAuth';
 import AlbumsList from './components/pages/AlbumsList';
 import PostsList from './components/pages/PostsList';
+import TodosList from './components/pages/TodosList';
 
 const router = createBrowserRouter([
 	{
@@ -47,6 +48,14 @@ const router = createBrowserRouter([
 				element: (
 					<RequireAuth>
 						<PostsList />
+					</RequireAuth>
+				),
+			},
+			{
+				path: '/todos',
+				element: (
+					<RequireAuth>
+						<TodosList />
 					</RequireAuth>
 				),
 			},

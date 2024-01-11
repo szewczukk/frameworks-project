@@ -55,6 +55,16 @@ export default function Sidebar({
 						Albums
 					</Link>
 				</div>
+				<div className="flex flex-col border-b border-black py-4">
+					<Link
+						to="/todos"
+						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
+							location.pathname === '/todos' && 'bg-slate-500 text-gray-50'
+						}`}
+					>
+						Todos
+					</Link>
+				</div>
 				<ul>
 					{users
 						.filter((user) => user.id !== userId)
