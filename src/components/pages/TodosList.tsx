@@ -4,6 +4,7 @@ import { Todo, todoSchema, todosSchema } from '@/lib/types';
 import { UsersContext } from '../contexts/UserContext';
 import { useAuthContext } from '../contexts/AuthContext';
 import NewTodoDialog, { FormValues } from '../common/NewTodoDialog';
+import TodoCard from '../common/TodoCard';
 
 export default function TodosList() {
 	const newTodoRef = useRef<HTMLDialogElement>(null);
@@ -80,7 +81,13 @@ export default function TodosList() {
 								return album.userId === selectedUserFilter;
 							})
 							.map((todo) => {
-								return <p>{todo.title}</p>;
+								return (
+									<TodoCard
+										isOwner={userId === todo.userId}
+										owner={users.find((user) => user.id === todo.userId)!}
+										todoData={todo}
+									/>
+								);
 							})
 					: 'No data'}
 			</div>
