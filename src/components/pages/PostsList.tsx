@@ -21,7 +21,6 @@ export default function PostsList() {
 	const { posts, setPosts } = useContext(PostsContext);
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const [selectedUserFilter, setSelectedUserFilter] = useState(-1);
-
 	const { userId } = useAuthContext();
 
 	useEffect(() => {
