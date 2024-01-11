@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import api from '@/lib/api';
-import { Album, albumsSchema, Post } from '@/lib/types';
+import { Album, albumsSchema } from '@/lib/types';
 import * as z from 'zod';
 import { UsersContext } from '../contexts/UserContext';
 import AlbumItem from '../common/AlbumItem';
@@ -20,18 +20,11 @@ export default function AlbumsList() {
 	useEffect(() => {
 		(async () => {
 			setIsLoading(true);
-			const newAlbums: Post[] = [];
 
 			const response = await api.get('/albums');
-			const responsePosts = albumsSchema.parse(response.data);
-			responsePosts.forEach((album: Album) => {
-				let isOld = albums.some(({ id }) => id === album.id);
+			const responseAlbums = albumsSchema.parse(response.data);
 
-				if (!isOld) {
-					newAlbums.push(album);
-				}
-			});
-			setAlbums([...albums, ...newAlbums]);
+			setAlbums(responseAlbums);
 
 			setIsLoading(false);
 		})();
@@ -44,12 +37,12 @@ export default function AlbumsList() {
 				{isLoading
 					? 'Loading...'
 					: albums.length
-					? albums.map((postData: Post) => {
+					? albums.map((album) => {
 							return (
 								<AlbumItem
-									key={postData.id}
-									album={postData}
-									owner={users.find((user) => user.id === postData.userId)}
+									key={album.id}
+									album={album}
+									owner={users.find((user) => user.id === album.userId)!}
 								/>
 							);
 					  })
