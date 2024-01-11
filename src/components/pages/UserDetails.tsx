@@ -33,7 +33,7 @@ export default function UserDetails() {
 
 			setIsLoading(false);
 		})();
-	}, []);
+	}, [params.id]);
 
 	if (!params.id) {
 		return <h1>Users id not provided</h1>;
