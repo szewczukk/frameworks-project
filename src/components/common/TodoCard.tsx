@@ -19,7 +19,7 @@ export default function TodoCard({
 	};
 
 	return (
-		<div className="mb-8 flex h-48 w-[30%] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+		<div className="mb-8 flex h-48 w-[30%] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 shadow">
 			<div>
 				<h2 className="mb-2 text-base font-bold capitalize">
 					{todoData.title}

@@ -40,7 +40,7 @@ export default function UserPost({
 	};
 
 	return (
-		<div className="mb-8 flex h-80 w-[30%] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+		<div className="mb-8 flex h-80 w-[30%] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 shadow">
 			<div>
 				<h3 className="mb-2 text-base font-bold capitalize">{title}</h3>
 				<span className="mb-2 capitalize">

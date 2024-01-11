@@ -11,7 +11,7 @@ export default function AlbumItem({
 	const { id, title } = album;
 
 	return (
-		<div className="mb-8 flex h-64 w-[30%] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 text-center shadow dark:border-gray-700 dark:bg-gray-800">
+		<div className="mb-8 flex h-64 w-[30%] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 text-center shadow">
 			<div className="h-24">
 				<b>Album name: </b>
 				{title}
