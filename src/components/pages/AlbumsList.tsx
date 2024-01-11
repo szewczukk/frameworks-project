@@ -74,7 +74,7 @@ export default function AlbumsList() {
 									return true;
 								}
 
-								return album.userId === userId;
+								return album.userId === selectedUserFilter;
 							})
 							.map((album) => {
 								return (

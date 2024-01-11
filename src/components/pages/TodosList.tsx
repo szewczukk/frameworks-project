@@ -77,7 +77,7 @@ export default function TodosList() {
 									return true;
 								}
 
-								return album.userId === userId;
+								return album.userId === selectedUserFilter;
 							})
 							.map((todo) => {
 								return <p>{todo.title}</p>;

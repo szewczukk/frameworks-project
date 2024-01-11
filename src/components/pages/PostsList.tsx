@@ -1,16 +1,15 @@
 import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 import api from '@/lib/api';
-import { postSchema, postsSchema } from '@/lib/types';
+import { Post, postSchema, postsSchema } from '@/lib/types';
 import UserPost from '../common/UserPost';
 import { UsersContext } from '../contexts/UserContext';
-import { PostsContext } from '../contexts/PostsContext';
 import NewPostDialog, { FormValues } from '../common/NewPostDialog';
 import { useAuthContext } from '../contexts/AuthContext';
 
 export default function PostsList() {
 	const [isLoading, setIsLoading] = useState(false);
 	const { users } = useContext(UsersContext);
-	const { posts, setPosts } = useContext(PostsContext);
+	const [posts, setPosts] = useState<Post[]>([]);
 	const dialogRef = useRef<HTMLDialogElement>(null);
 	const [selectedUserFilter, setSelectedUserFilter] = useState(-1);
 	const { userId } = useAuthContext();
