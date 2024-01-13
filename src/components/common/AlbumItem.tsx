@@ -21,7 +21,7 @@ export default function AlbumItem({
 				{owner?.username}
 			</div>
 			<button className="w-100 rounded border bg-slate-500 py-2 text-slate-50 transition-colors hover:border-slate-500 hover:bg-transparent hover:text-slate-500 focus:outline-none disabled:border-0 disabled:bg-slate-50 disabled:text-slate-500">
-				<Link className="w-100 h-100 block" to={`/albums/${id}`}>
+				<Link className="w-100 h-100 block" to={`/albums/${id}/photos`}>
 					OPEN ALBUM
 				</Link>
 			</button>

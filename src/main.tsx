@@ -12,6 +12,7 @@ import RequireAuth from './components/common/RequireAuth';
 import AlbumsList from './components/pages/AlbumsList';
 import PostsList from './components/pages/PostsList';
 import TodosList from './components/pages/TodosList';
+import PhotosList from './components/pages/PhotosList';
 
 const router = createBrowserRouter([
 	{
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
 				element: (
 					<RequireAuth>
 						<AlbumsList />
+					</RequireAuth>
+				),
+			},
+			{
+				path: '/albums/:id/photos',
+				element: (
+					<RequireAuth>
+						<PhotosList />
 					</RequireAuth>
 				),
 			},

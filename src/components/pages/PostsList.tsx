@@ -62,12 +62,16 @@ export default function PostsList() {
 				>
 					ADD NEW POST
 				</button>
-				<select className="border border-black" onChange={handleChange}>
-					<option value="-1" selected>
-						All
-					</option>
+				<select
+					className="border border-black"
+					onChange={handleChange}
+					value={selectedUserFilter}
+				>
+					<option value="-1">All</option>
 					{users.map((user) => (
-						<option value={user.id}>{user.username}</option>
+						<option key={user.id} value={user.id}>
+							{user.username}
+						</option>
 					))}
 				</select>
 			</div>

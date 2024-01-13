@@ -53,6 +53,15 @@ export default function Sidebar({
 						Albums
 					</Link>
 					<Link
+						to="/albums/all/photos"
+						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
+							location.pathname === '/albums/all/photos' &&
+							'bg-slate-500 text-gray-50'
+						}`}
+					>
+						Photos
+					</Link>
+					<Link
 						to="/todos"
 						className={`px-4 py-2 transition-colors hover:bg-slate-500 hover:text-gray-50 ${
 							location.pathname === '/todos' && 'bg-slate-500 text-gray-50'
